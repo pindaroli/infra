@@ -2,8 +2,15 @@
 # Misc
 #
 hostname: '{{ inventory_hostname }}'
+normal_user: '{{ theuser }}' 
+samba_user_name: '{{ normal_user }}'
+ssh_public_key: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDP5aQBaw3N2LG+URG8Xu+U4TouxklcXtdq7zt9lHX1S0d4wrGpQkDjhne1QBlGRRvpZQppqlhL1wdQeIeDJDqq/HlBo1yrJRhORd3UyNNbc4FD8gPPT1rVWfpYc0GQ2cC0L/erZLy/57dbwKV8V89U+kK/fvQr3VFMhFE4tWc5DG0nDP9efKqcFPrWTIgDGhsRWzMxDgGOQgWd912IVyrXlBw0cWhxSbL9qjsU9k3Wq2qtBNeholV63iuDsQZaHiEEvhJsOLhANraEI7uyqqjacR5/frYnTnmgXaxJo2qxv9Wt1ql+QYALeXeyshirxNm5Blz9j1TaUKQtQ1vYV0DCBtc39lcle0gzkKw0mRNNk7c3hr6cwUjl51OURPJ0UcnL+hCIXTMrjpxBXyH0uEZQE08eHqKql8WGJbms1SoPhMZpr5+kLkuPaKpyYShUJzDzZdY5bKW1YO8kKZhA3vwbVsuFcE+lvn+YweQ95SI5ChtoOuG5O//zaB4oNLPjGTU= olindo@olindo-pc-win11'
 
-timezone: Europe/Amsterdam
+
+
+nfs_exports: [ "/oliraid *(rw,sync,no_root_squash)" ]
+
+timezone: Europe/Rome
 
 ntp_timezone: '{{ timezone }}'
 
@@ -11,18 +18,18 @@ locale: en_US.UTF-8
 
 keyboard_layout: us
 
-username: notthebee
+username: '{{ theuser }}'
 
 shell: /usr/bin/fish
 
-dotfiles_repo: https://github.com/notthebee/dotfiles
+#dotfiles_repo: https://github.com/notthebee/dotfiles
 
 guid: 1000
 
 #
 # Networking
 # 
-tailscale_enabled: yes 
+tailscale_enabled: no 
 
 tailscale_exit_node: no
 
@@ -51,11 +58,7 @@ docker_compose_dir: /opt/docker/compose
 
 services:
   - homeassistant
-  - mqtt
-  - nginxproxymanager
-  - deconz
   - photoprism
-  - syncthing
 
 #
 # Packages
@@ -76,20 +79,25 @@ extra_packages:
   - lm-sensors
   - iotop
   - ncdu
+  - pipx
 
 #
 # Email credentials (for notifications)
 #
 
-email: moe@notthebe.ee
+email: o.pindaro@gmail.com
 
 email_login: '{{ email }}'
 
-email_smtp_host: smtp.mailbox.org
+email_smtp_host: smtp.gmail.com
 
 email_smtp_port: 465
 
 email_smtp_port_startls: 587
+
+email_password: R3z14etdZZ70KxQ6gB
+
+password: '{{ thepass }}'
 
 # MSMTP
 msmtp_accounts:

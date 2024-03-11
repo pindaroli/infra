@@ -2,16 +2,16 @@
 #
 # Tasks and roles for all hosts
 #
-- hosts: mona
-  gather_facts: no
+- hosts: media
+  gather_facts: yes
 
-  pre_tasks:
-      - import_tasks: tasks/ssh_juggle_port.yml
-        tags:
-            - always
-            - port
+  # pre_tasks:
+  #     - import_tasks: tasks/ssh_juggle_port.yml
+  #       tags:
+  #           - always
+  #           - port
 
-- hosts: fleet
+- hosts: media
   become: yes
 
   roles:
@@ -22,9 +22,39 @@
         tags:
             - system
 
-      - role: neovim
+      - role: joenyland.samba
         tags:
-            - neovim
+          - samba
+        vars:
+          samba_shares:
+            oliraid:
+              path: /oliraid
+              valid_users: "{{samba_user_name}}"
+              read_only: false
+            home:
+              path: "/home/{{samba_user_name}}"
+              valid_users: "{{samba_user_name}}"
+              read_only: false
+
+      - role: geerlingguy.nfs
+        tags:
+          - NFS
+
+      - role: gantsign.visual-studio-code
+        tags:
+          - vscode
+        users:
+          - username: "{{ username }}"
+            visual_studio_code_extensions:
+              - redhat.ansible
+              - ms-azuretools.vscode-docker
+              - redhat.vscode-yaml
+              - wholroyd.jinja
+              - ms-python.python
+
+      - role: chrome
+        tags:
+            - chrome
 
       - role: geerlingguy.security
         tags:
@@ -34,13 +64,24 @@
         tags:
             - docker
 
+      - role: docker_network
+        tags:
+          - docker
+
+      - role: photoprism
+        tags:
+          - docker
+
+
       - role: chriswayg.msmtp-mailer
         tags:
             - msmtp
 
-      - name: containers
-        tags:
-          - containers
+      # - name: containers
+      #   tags:
+      #     - containers
+
+    
 
       - role: tailscale
         when: tailscale_enabled | default(false)

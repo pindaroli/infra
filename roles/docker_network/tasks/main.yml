@@ -1,0 +1,8 @@
+---
+- name: Create the mediaserver  network
+  community.general.docker_network:
+    name: mediaserver-network
+    ipam_config:
+      - subnet: 10.8.2.0/24
+        gateway: 10.8.2.1
+        iprange: 10.8.2.0/24

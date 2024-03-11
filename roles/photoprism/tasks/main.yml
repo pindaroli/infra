@@ -1,0 +1,83 @@
+---
+- name: Make sure the photoprism MariaDB ontainer is created and running
+  register: photoprims_Maria_result
+  retries: 5
+  until: photoprims_Maria_result is succeeded
+  community.general.docker_container:
+    name: "photoprism-mariadb"
+    image: "mariadb:latest"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      start_period: 120s
+      interval: 60s
+      retries: 10
+      timeout: 60s
+    networks:
+      - name: mediaserver-network
+        ipv4_address: 10.8.2.3
+    pull: yes
+    state: "started"
+    volumes: 
+      - '{{ docker_dir }}/photoprism/db:/var/lib/mysql'
+    restart_policy: unless-stopped
+    env:
+      TZ: Europe/Rome
+      MYSQL_ROOT_PASSWORD: 'root{{ thepass }}'
+      MYSQL_DATABASE: mediaserver-foto
+      MYSQL_USER: '{{ theuser }}'
+      MYSQL_PASSWORD: '{{ thepass }}'
+
+- name: Make sure the photoprims container is created and running
+  register: photoprims_result
+  retries: 5
+  until: photoprims_result is succeeded
+  community.general.docker_container:
+    name: "photoprims"
+    image: "photoprism/photoprism:latest"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9091"]
+      start_period: 120s
+      interval: 60s
+      retries: 10
+      timeout: 60s
+    networks:
+      - name: mediaserver-network
+        ipv4_address: 10.8.2.4
+    pull: yes
+    state: "started"
+    restart_policy: unless-stopped
+    ports: 
+      - 2342:2342
+    volumes: 
+      - "/oliraid/media/foto:/photoprism/originals"
+    env:
+      PUID: '1000'
+      PGID: '1000'
+      PHOTOPRISM_GID:  '1000'
+      PHOTOPRISM_UID:  '1000'
+      TZ:  Europe/Rome
+      PHOTOPRISM_ADMIN_PASSWORD:  '{{ thepass }}'
+      PHOTOPRISM_SITE_URL:  http://localhost:2342
+      PHOTOPRISM_EXPERIMENTAL:  'false'
+      PHOTOPRISM_HTTP_COMPRESSION:  gzip
+      PHOTOPRISM_DATABASE_DRIVER:  mysql
+      PHOTOPRISM_DATABASE_SERVER:  photoprism-mariadb:3306
+      PHOTOPRISM_AUTH_MODE:  "public"
+      PHOTOPRISM_DATABASE_NAME:  mediaserver-foto
+      PHOTOPRISM_DATABASE_USER:  '{{ theuser }}'
+      PHOTOPRISM_DATABASE_PASSWORD:  '{{ thepass }}'
+      PHOTOPRISM_DISABLE_CHOWN:  'false'            
+      PHOTOPRISM_DISABLE_BACKUPS:  'true' 
+      PHOTOPRISM_DISABLE_WEBDAV:  'false'            
+      PHOTOPRISM_DETECT_NSFW:  'true'
+      PHOTOPRISM_UPLOAD_NSFW:  'false'
+      PHOTOPRISM_DEBUG:  'true'
+      PHOTOPRISM_THUMB_FILTER:  lanczos
+      PHOTOPRISM_THUMB_UNCACHED:  'true'
+      PHOTOPRISM_THUMB_SIZE:  '2048'
+      PHOTOPRISM_THUMB_SIZE_UNCACHED:  '7680'           
+      PHOTOPRISM_JPEG_SIZE:  '7680' 
+      PHOTOPRISM_JPEG_QUALITY:  '92'
+      TF_CPP_MIN_LOG_LEVEL:  '0' 
+      PHOTOPRISM_FFMPEG_ENCODER:  h264_qsv        
+      PHOTOPRISM_INIT:  tensorflow-amd64-avx2

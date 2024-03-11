@@ -1,4 +1,5 @@
 ---
+
 - name: Template out the netplan file
   ansible.builtin.template:
     src: netplan.yaml

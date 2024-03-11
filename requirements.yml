@@ -5,3 +5,5 @@ roles:
     - name: geerlingguy.docker
     - name: geerlingguy.ntp
     - name: chriswayg.msmtp-mailer
+    - name: joenyland.samba
+    - name: gantsign.visual-studio-code

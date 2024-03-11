@@ -7,10 +7,12 @@
     state: present
 
 - name: Install docker module for Python
+  #community.general.pipx:
   pip:
     name: 
       - docker
       - docker-compose
+    state: present
 
 - name: Make sure that the docker folders exists
   ansible.builtin.file:

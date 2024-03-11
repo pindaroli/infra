@@ -30,6 +30,10 @@
     owner: "{{ username }}"
     group: "{{ username }}"
     recurse: yes
+    follow: false
+  become: true
+  
+    
 
 - name: Allow '{{ sudo_group }}' group to have passwordless sudo
   lineinfile:

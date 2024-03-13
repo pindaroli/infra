@@ -4,6 +4,7 @@ roles:
     - name: geerlingguy.security
     - name: geerlingguy.docker
     - name: geerlingguy.ntp
+    - name: geerlingguy.nfs
     - name: chriswayg.msmtp-mailer
     - name: joenyland.samba
     - name: gantsign.visual-studio-code

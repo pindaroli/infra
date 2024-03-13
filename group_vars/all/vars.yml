@@ -81,6 +81,10 @@ extra_packages:
   - ncdu
   - pipx
 
+extra_snap_packages:
+  - filebot
+  - telegram-desktop
+  - whatsapp-for-linux
 #
 # Email credentials (for notifications)
 #
@@ -95,7 +99,7 @@ email_smtp_port: 465
 
 email_smtp_port_startls: 587
 
-email_password: R3z14etdZZ70KxQ6gB
+email_password: "{{ googlepass }}"
 
 password: '{{ thepass }}'
 

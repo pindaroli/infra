@@ -20,6 +20,12 @@
     name: "{{ extra_packages }}"
     state: present
 
+- name: Install extra snap packages
+  community.general.snap:
+    name: "{{ extra_snap_packages }}"
+    classic: true
+    state: present
+
 - name: Set the hostname
   hostname:
     name: "{{ inventory_hostname }}"

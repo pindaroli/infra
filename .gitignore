@@ -3,7 +3,6 @@
 /hosts
 /files/fonts/*
 .DS_Store
-secret.yml
 /group_vars/
 /host_vars/
 !/host_vars/.gitkeep

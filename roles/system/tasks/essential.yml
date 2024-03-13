@@ -26,6 +26,19 @@
     classic: true
     state: present
 
+- name: install ansible
+  community.general.pipx:
+    name: ansible
+    install_deps: true
+    state: present
+
+- name: pipx inject ansible argcomplete
+  community.general.pipx:
+    name: ansible
+    inject_packages: argcomplete
+    state: present
+   
+
 - name: Set the hostname
   hostname:
     name: "{{ inventory_hostname }}"

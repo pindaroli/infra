@@ -2,16 +2,11 @@
 #
 # Tasks and roles for all hosts
 #
+  
+
+
 - hosts: media
   gather_facts: yes
-
-  # pre_tasks:
-  #     - import_tasks: tasks/ssh_juggle_port.yml
-  #       tags:
-  #           - always
-  #           - port
-
-- hosts: media
   become: yes
 
   roles:
@@ -31,10 +26,17 @@
               path: /oliraid
               valid_users: "{{samba_user_name}}"
               read_only: false
+              
             home:
               path: "/home/{{samba_user_name}}"
               valid_users: "{{samba_user_name}}"
               read_only: false
+
+  - name: Imposta la password Samba per l'utente "samba_user_name"
+    community.general.smbpasswd:
+      name: {{samba_user_name}}"
+      password: "{{samba_user_password}}"
+
 
       - role: geerlingguy.nfs
         tags:

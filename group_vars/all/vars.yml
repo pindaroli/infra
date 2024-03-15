@@ -102,6 +102,7 @@ email_smtp_port_startls: 587
 email_password: "{{ googlepass }}"
 
 password: '{{ thepass }}'
+samba_user_password: '{{ thepass }}'
 
 # MSMTP
 msmtp_accounts:

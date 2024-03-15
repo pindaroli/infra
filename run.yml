@@ -31,12 +31,12 @@
               path: "/home/{{samba_user_name}}"
               valid_users: "{{samba_user_name}}"
               read_only: false
-
-  - name: Imposta la password Samba per l'utente "samba_user_name"
-    community.general.smbpasswd:
-      name: {{samba_user_name}}"
-      password: "{{samba_user_password}}"
-
+              
+        tasks:
+          - name: Imposta la password Samba per l'utente "samba_user_name"
+            community.general.smbpasswd:
+              name: "{{samba_user_name}}"
+              password: "{{samba_user_password}}"
 
       - role: geerlingguy.nfs
         tags:
@@ -47,6 +47,7 @@
           - vscode
         users:
           - username: "{{ username }}"
+
             visual_studio_code_extensions:
               - redhat.ansible
               - ms-azuretools.vscode-docker

@@ -2,20 +2,19 @@
 #
 # Tasks and roles for all hosts
 #
-  
-
-
 - hosts: media
   gather_facts: yes
-  become: yes
+
 
   roles:
+    become: yes
+    roles:
       #
       # Basics
       #
       - role: system
         tags:
-            - system
+          - system
 
       - role: joenyland.samba
         tags:
@@ -26,46 +25,44 @@
               path: /oliraid
               valid_users: "{{samba_user_name}}"
               read_only: false
-              
             home:
               path: "/home/{{samba_user_name}}"
               valid_users: "{{samba_user_name}}"
               read_only: false
-              
-        tasks:
-          - name: Imposta la password Samba per l'utente "samba_user_name"
-            community.general.smbpasswd:
-              name: "{{samba_user_name}}"
-              password: "{{samba_user_password}}"
 
       - role: geerlingguy.nfs
         tags:
           - NFS
+        nfs_exports:
+          - "/oliraid   *(rw,sync,no_root_squash)"
+        nfs_rpcbind_state: started
+        nfs_rpcbind_enabled: true
 
       - role: gantsign.visual-studio-code
         tags:
           - vscode
         users:
-          - username: "{{ username }}"
-
+          - username: ¨{{ username }}"
             visual_studio_code_extensions:
               - redhat.ansible
               - ms-azuretools.vscode-docker
               - redhat.vscode-yaml
               - wholroyd.jinja
               - ms-python.python
+              - GitHub.copilot
+              - GitHub.copilot-chat
 
       - role: chrome
         tags:
-            - chrome
+          - chrome
 
       - role: geerlingguy.security
         tags:
-            - security
+          - security
 
       - role: geerlingguy.docker
         tags:
-            - docker
+          - docker
 
       - role: docker_network
         tags:
@@ -78,15 +75,22 @@
 
       - role: chriswayg.msmtp-mailer
         tags:
-            - msmtp
+          - msmtp
 
       # - name: containers
       #   tags:
       #     - containers
 
-    
 
       - role: tailscale
         when: tailscale_enabled | default(false)
         tags:
-            - tailscale
+          - tailscale
+
+  tasks:
+    - name: Imposta la password Samba per l' utente "samba_user_name"
+      community.general.smbpasswd:
+        name: "{{ samba_user_name }}"
+        password: "{{ samba_user_password }}"
+      tags:
+        - samba

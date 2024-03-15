@@ -2,4 +2,4 @@
 mediaserver.pind ansible_sudo_pass='{{ thepass }}'  ansible_ssh_user='{{ theuser }}' 
 
 [media]
-mediaserver.pind ansible_sudo_pass='{{ thepass }}'  ansible_ssh_user='{{ theuser }}'
+mediaserver.pind ansible_ ansible_sudo_pass='{{ thepass }}'  ansible_ssh_user='{{ theuser }}'

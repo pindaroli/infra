@@ -1,96 +1,89 @@
----
 #
 # Tasks and roles for all hosts
 #
 - hosts: media
   gather_facts: yes
-
-
+  become: yes
   roles:
-    become: yes
-    roles:
-      #
-      # Basics
-      #
-      - role: system
-        tags:
-          - system
+    #
+    # Basics
+    #
+    - role: system
+      tags:
+        - system
 
-      - role: joenyland.samba
-        tags:
-          - samba
-        vars:
-          samba_shares:
-            oliraid:
-              path: /oliraid
-              valid_users: "{{samba_user_name}}"
-              read_only: false
-            home:
-              path: "/home/{{samba_user_name}}"
-              valid_users: "{{samba_user_name}}"
-              read_only: false
-
-      - role: geerlingguy.nfs
-        tags:
-          - NFS
-        nfs_exports:
-          - "/oliraid   *(rw,sync,no_root_squash)"
-        nfs_rpcbind_state: started
-        nfs_rpcbind_enabled: true
-
-      - role: gantsign.visual-studio-code
-        tags:
-          - vscode
-        users:
-          - username: ¨{{ username }}"
-            visual_studio_code_extensions:
-              - redhat.ansible
-              - ms-azuretools.vscode-docker
-              - redhat.vscode-yaml
-              - wholroyd.jinja
-              - ms-python.python
-              - GitHub.copilot
-              - GitHub.copilot-chat
-
-      - role: chrome
-        tags:
-          - chrome
-
-      - role: geerlingguy.security
-        tags:
-          - security
-
-      - role: geerlingguy.docker
-        tags:
-          - docker
-
-      - role: docker_network
-        tags:
-          - docker
-
-      - role: photoprism
-        tags:
-          - docker
-
-
-      - role: chriswayg.msmtp-mailer
-        tags:
-          - msmtp
-
-      # - name: containers
-      #   tags:
-      #     - containers
-
-
-      - role: tailscale
-        when: tailscale_enabled | default(false)
-        tags:
-          - tailscale
-
-  tasks:
-    - name: Imposta la password Samba per l' utente "samba_user_name"
-      community.general.smbpasswd:
-        name: "{{ samba_user_name }}"
-        password: "{{ samba_user_password }}"
+    - role: joenyland.samba
       tags:
         - samba
+      vars:
+        samba_shares:
+          oliraid:
+            path: /oliraid
+            valid_users: "{{samba_user_name}}"
+            read_only: false
+          home:
+            path: "/home/{{samba_user_name}}"
+            valid_users: "{{samba_user_name}}"
+            read_only: false
+
+    - role: geerlingguy.nfs
+      tags:
+        - NFS
+      nfs_exports:
+        - "/oliraid   *(rw,sync,no_root_squash)"
+      nfs_rpcbind_state: started
+      nfs_rpcbind_enabled: true
+
+    - role: gantsign.visual-studio-code
+      tags:
+        - vscode
+      users:
+        - username: ¨{{ username }}"
+          visual_studio_code_extensions:
+            - redhat.ansible
+            - ms-azuretools.vscode-docker
+            - redhat.vscode-yaml
+            - wholroyd.jinja
+            - ms-python.python
+            - GitHub.copilot
+            - GitHub.copilot-chat
+
+    - role: chrome
+      tags:
+        - chrome
+
+    - role: geerlingguy.security
+      tags:
+        - security
+
+    - role: geerlingguy.docker
+      tags:
+        - docker
+
+    - role: docker_network
+      tags:
+        - docker
+
+    - role: photoprism
+      tags:
+        - docker
+
+
+    - role: chriswayg.msmtp-mailer
+      tags:
+        - msmtp
+
+    # - name: containers
+    #   tags:
+    #     - containers
+
+
+    - role: tailscale
+      when: tailscale_enabled | default(false)
+      tags:
+        - tailscale
+
+  post_tasks:
+      - import_tasks: tasks/sambapass.yml
+      
+

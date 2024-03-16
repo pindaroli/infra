@@ -1,0 +1,7 @@
+---
+- name: Change Samba password for user
+  ansible.builtin.command:
+    cmd: echo -e "{{ samba_user_password }}\n{{ samba_user_password }}" | sudo smbpasswd -s -a "{{ samba_user_name }}"
+  become: true
+  tags:
+    - samba

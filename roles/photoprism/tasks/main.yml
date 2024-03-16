@@ -32,10 +32,10 @@
   retries: 5
   until: photoprims_result is succeeded
   community.general.docker_container:
-    name: "photoprims"
+    name: "photoprism"
     image: "photoprism/photoprism:latest"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9091"]
+      test: ["CMD", "curl", "-f", "http://localhost:2342"]
       start_period: 120s
       interval: 60s
       retries: 10

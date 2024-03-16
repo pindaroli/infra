@@ -1,7 +1,9 @@
+---
 #
 # Tasks and roles for all hosts
 #
 - hosts: media
+  connection: local
   gather_facts: yes
   become: yes
   roles:

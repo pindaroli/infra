@@ -2,7 +2,7 @@
 
 - name: Make sure the qbittorrent container is created and running
   register: qbittorrent_result
-  retries: 20
+  retries: 5
   until: qbittorrent_result is succeeded
   community.general.docker_container:
     name: "qbittorrent"
@@ -27,9 +27,9 @@
       - "{{ docker_dir }}/qbittorrent:/config"
       - /oliraid/arrdata/qbittorrent:/downloads
     env:
-      PUID: ¨1000¨
-      PGID: ¨1000¨
+      PUID: "1000"
+      PGID: "1000"
       TZ: "Europe/Rome"
-      WEBUI_PORT: ¨8080"
-      TORRENTING_PORT: ¨6881¨
+      WEBUI_PORT: "8080"
+      TORRENTING_PORT: "6881"
 ...

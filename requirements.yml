@@ -8,3 +8,4 @@ roles:
     - name: chriswayg.msmtp-mailer
     - name: joenyland.samba
     - name: gantsign.visual-studio-code
+    - name: ansible-role-webmin

@@ -68,9 +68,4 @@
   community.general.dconf:
     key: "/org/gnome/shell/extensions/dash-to-dock"
     value: "['dock-position' , 'BOTTOM']"
- 
-  
-- name: launch program to install webmin
-  ansible.builtin.shell: curl -o setup-repos.sh https://raw.githubusercontent.com/webmin/webmin/master/setup-repos.sh
-  become: true
 ...

@@ -84,6 +84,10 @@
       when: tailscale_enabled | default(false)
       tags:
         - tailscale
+    
+    - role: webmin
+      tags:
+        - system
 
   post_tasks:
       - import_tasks: tasks/sambapass.yml

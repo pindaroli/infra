@@ -1,0 +1,28 @@
+---
+
+- name: Make sure the jellyfin container is created and running
+  register: jellyfin_result
+  retries: 20
+  until: jellyfin_result is succeeded
+  community.general.docker_container:
+    name: "jellyfin"
+    image: "jellyfin/jellyfin:{{ jellyfin_version }}"
+    user: 1000:1000
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8096"]
+      start_period: 120s
+      interval: 60s
+      retries: "10"
+      timeout: 60s
+    network_mode: "host"
+    pull: yes
+    state: "started"
+    restart_policy: unless-stopped
+    volumes: 
+      - "{{ docker_dir }}/jellyfin/config:/config"
+      - "{{ docker_dir }}/jellyfin/cache:/cache"
+      - "/oliraid/arrdata/qbittorrent:/torrents"
+
+- name: DUBUG
+  debug:
+    msg: "docker dir is {{ docker_dir }}"

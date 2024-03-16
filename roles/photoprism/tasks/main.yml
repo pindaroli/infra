@@ -49,7 +49,7 @@
     ports: 
       - 2342:2342
     volumes: 
-      - "/oliraid/media/foto:/photoprism/originals"
+      - "/oliraid/arrdata/media/foto:/photoprism/originals"
     env:
       PUID: '1000'
       PGID: '1000'

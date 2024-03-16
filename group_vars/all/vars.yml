@@ -24,7 +24,7 @@ shell: /usr/bin/fish
 
 #dotfiles_repo: https://github.com/notthebee/dotfiles
 
-guid: 1000
+guid: "1000"
 
 #
 # Networking

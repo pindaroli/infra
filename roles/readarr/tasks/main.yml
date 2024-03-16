@@ -2,7 +2,7 @@
 
 - name: Make sure the readarr container is created and running
   register: readarr_result
-  retries: 5
+  retries: 20
   until: readarr_result is succeeded
   community.general.docker_container:
     name: "readarr"
@@ -15,7 +15,7 @@
       timeout: 60s
     networks: 
       - name: mediaserver-network
-        ipv4_address: 10.8.2.10
+        ipv4_address: 10.8.2.11
     pull: yes
     state: "started"
     restart_policy: unless-stopped
@@ -23,10 +23,10 @@
       - 8787:8787
     volumes: 
       - "{{ docker_dir }}/readarr:/config"
-      - /oliraid/datarr/books:/books #optional
-      - /oliraid/datarr/qbittorrent:/downloads #optional
+      - /oliraid/arrdata/media/Books:/books #optional
+      - /oliraid/arrdata/qbittorrent:/downloads #optional
     env:
-      PUID: 1000
-      PGID: 1000
+      PUID: "1000"
+      PGID: "1000"
       TZ: "Europe/Rome"
     

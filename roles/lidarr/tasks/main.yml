@@ -23,10 +23,10 @@
       - 8686:8686
     volumes: 
       - "{{ docker_dir }}/lidarr:/config"
-      - /oliraid/datarr/music:/music #optional
-      - /oliraid/datarr/qbittorrent:/downloads #optional
+      - /oliraid/arrdata/media/Music:/music #optional
+      - /oliraid/arrdata/qbittorrent:/downloads #optional
     env:
-      PUID: 1000
-      PGID: 1000
+      PUID: "1000"
+      PGID: "1000"
       TZ: "Europe/Rome"
     

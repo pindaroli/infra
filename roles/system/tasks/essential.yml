@@ -58,3 +58,10 @@
     user: root
     env: yes
     job: ""
+
+- name: Settinge Gnome Graphic Properties
+  ansible.builtin.shell: 
+    - gsettings set org.gnome.shell.extensions.dash-to-dock extend-height false
+    - gsettings set org.gnome.shell.extensions.dash-to-dock dock-position BOTTOM
+    - set PROFILE=$(gsettings get org.gnome.Terminal.ProfilesList default) && set PROFILE=${PROFILE:1:-1} && gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$PROFILE/ background-color 'rgb(0,0,0)'
+  

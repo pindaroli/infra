@@ -2,7 +2,7 @@
 
 - name: Make sure the prowlarr container is created and running
   register: prowlarr_result
-  retries: 5
+  retries: 20
   until: prowlarr_result is succeeded
   community.general.docker_container:
     name: "prowlarr"
@@ -11,11 +11,11 @@
       test: ["CMD", "curl", "-f", "http://localhost:9696"]
       start_period: 120s
       interval: 60s
-      retries: 10
+      retries: "10"
       timeout: 60s
     networks: 
       - name: mediaserver-network
-        ipv4_address: 10.8.2.7
+        ipv4_address: "10.8.2.7"
     pull: yes
     state: "started"
     restart_policy: unless-stopped
@@ -24,7 +24,7 @@
     volumes: 
       - "{{ docker_dir }}/prowlarr:/config"
     env:
-      PUID: 1000
-      PGID: 1000
+      PUID: ¨1000"
+      PGID: "1000"
       TZ: "Europe/Rome"
     

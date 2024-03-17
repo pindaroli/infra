@@ -1,0 +1,26 @@
+---
+
+- name: Make sure the flaresolverr container is created and running
+  register: flaresolverr_result
+  retries: 5
+  until: flaresolverr_result is succeeded
+  community.general.docker_container:
+    name: "flaresolverr"
+    image: "ghcr.io/flaresolverr/flaresolverr:{{ flaresolverr_version }}"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8191"]
+      start_period: 120s
+      interval: 60s
+      retries: 10
+      timeout: 60s
+    networks: 
+      - name: mediaserver-network
+        ipv4_address: 10.8.2.12
+    pull: yes
+    state: "started"
+    restart_policy: unless-stopped
+    ports: 
+      - 8191:8191
+    env:
+      LOG_LEVEL: info
+    

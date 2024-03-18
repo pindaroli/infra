@@ -81,6 +81,9 @@ extra_packages:
   - ncdu
   - pipx
   - curl
+  - vlc
+  - ffmpeg
+  - handbrake
 
 extra_snap_packages:
   - filebot

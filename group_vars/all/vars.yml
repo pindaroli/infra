@@ -84,6 +84,7 @@ extra_packages:
   - vlc
   - ffmpeg
   - handbrake
+  - ethtool
 
 extra_snap_packages:
   - filebot

@@ -1,0 +1,6 @@
+- hosts: docker-server.pind
+  roles:
+    - role: geerlingguy.docker
+      docker_packages_state: present
+      tags:
+        - docker

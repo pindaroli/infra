@@ -2,7 +2,8 @@
 #
 # Tasks and roles for all hosts
 #
-- hosts: media
+- name: Play for mediaserver installation
+  hosts: media
   connection: local
   gather_facts: yes
   become: yes
@@ -55,6 +56,10 @@
     - role: chrome
       tags:
         - chrome
+
+    - role: filebot
+      tags:
+        - filebot
 
     - role: geerlingguy.security
       tags:

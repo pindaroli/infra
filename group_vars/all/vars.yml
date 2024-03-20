@@ -87,7 +87,6 @@ extra_packages:
   - ethtool
 
 extra_snap_packages:
-  - filebot
   - telegram-desktop
   - whatsapp-for-linux
 #

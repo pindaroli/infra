@@ -1,0 +1,11 @@
+---
+qbittorrent_version: "latest"
+radarr_version: "latest"
+readarr_version: "develop"
+prowlarr_version: "latest"
+lidarr_version: "latest"
+jellyfin_version: "latest"
+jackett_version: "latest"
+photoprism_version: "latest"
+homarr_version: "latest"
+flaresolverr_version: "latest"

@@ -1,0 +1,27 @@
+---
+- name: Import filebot repository key
+  apt_key:
+    url: https://raw.githubusercontent.com/filebot/plugins/master/gpg/maintainer.pub
+    state: present
+  tags:
+    - all
+    - filebot
+
+- name: Add filebot repository
+  apt_repository:
+    repo: 'deb [arch=all] https://get.filebot.net/deb/ universal main'
+    state: present
+  tags:
+    - mediaserver 
+    - filebot
+
+- name: Update apt and install filebot
+  apt:
+    name: filebot
+    state: latest
+    install_recommends: yes
+    update_cache: yes
+  tags:
+    - all 
+    - filebot
+

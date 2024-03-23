@@ -1,0 +1,31 @@
+---
+
+- name: Make sure the homarr container is created and running
+  register: homarr_result
+  retries: 5
+  until: homarr_result is succeeded
+  community.general.docker_container:
+    name: "homarr"
+    image: "ghcr.io/ajnart/homarr:{{ homarr_version }}"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7575"]
+      start_period: 120s
+      interval: 60s
+      retries: 10
+      timeout: 60s
+    networks: 
+      - name: mediaserver-network
+        ipv4_address: "10.8.2.10"
+    pull: yes
+    state: "started"
+    restart_policy: unless-stopped
+    ports: 
+      - '7575:7575'
+    volumes: 
+      - /var/run/docker.sock:/var/run/docker.sock # Optional, only if you want docker integration
+      - "{{ docker_dir }}/homarr/configs:/app/data/configs"
+      - "{{ docker_dir }}/homarr/icons:/app/public/icons"
+      - "{{ docker_dir }}/homarr/data:/data"
+  tags:
+    - all
+    - homarr

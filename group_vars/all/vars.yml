@@ -4,7 +4,6 @@
 hostname: '{{ inventory_hostname }}'
 normal_user: '{{ theuser }}' 
 samba_user_name: '{{ normal_user }}'
-ssh_public_key: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDP5aQBaw3N2LG+URG8Xu+U4TouxklcXtdq7zt9lHX1S0d4wrGpQkDjhne1QBlGRRvpZQppqlhL1wdQeIeDJDqq/HlBo1yrJRhORd3UyNNbc4FD8gPPT1rVWfpYc0GQ2cC0L/erZLy/57dbwKV8V89U+kK/fvQr3VFMhFE4tWc5DG0nDP9efKqcFPrWTIgDGhsRWzMxDgGOQgWd912IVyrXlBw0cWhxSbL9qjsU9k3Wq2qtBNeholV63iuDsQZaHiEEvhJsOLhANraEI7uyqqjacR5/frYnTnmgXaxJo2qxv9Wt1ql+QYALeXeyshirxNm5Blz9j1TaUKQtQ1vYV0DCBtc39lcle0gzkKw0mRNNk7c3hr6cwUjl51OURPJ0UcnL+hCIXTMrjpxBXyH0uEZQE08eHqKql8WGJbms1SoPhMZpr5+kLkuPaKpyYShUJzDzZdY5bKW1YO8kKZhA3vwbVsuFcE+lvn+YweQ95SI5ChtoOuG5O//zaB4oNLPjGTU= olindo@olindo-pc-win11'
 
 
 
@@ -85,6 +84,8 @@ extra_packages:
   - ffmpeg
   - handbrake
   - ethtool
+  - powertop
+  - gdebi
 
 extra_snap_packages:
   - telegram-desktop
@@ -136,3 +137,7 @@ security_autoupdate_mail_to: '{{ email }}'
 security_autoupdate_reboot_time: '23:00'
 
 security_autoupdate_mail_on_error: false
+
+# default values for mediaserver Role
+torrentDir: /oliraid/arrdata/qbittorrent
+mediaDir: /oliraid/arrdata/media

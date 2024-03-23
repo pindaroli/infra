@@ -1,0 +1,15 @@
+
+---
+- include_tasks: docker-network.yml
+- include_tasks: flaresolverr.yml
+- include_tasks: homarr.yml
+- include_tasks: jackett.yml
+- include_tasks: jellyfin.yml
+- include_tasks: lidarr.yml
+- include_tasks: photoprims.yml
+- include_tasks: prowlarr.yml
+- include_tasks: qbittorrent.yml
+- include_tasks: radarr.yml
+- include_tasks: readarr.yml
+- include_tasks: filebot.yml
+...

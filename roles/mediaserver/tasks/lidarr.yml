@@ -1,0 +1,35 @@
+---
+
+- name: Make sure the lidarr container is created and running
+  register: lidarr_result
+  retries: 5
+  until: lidarr_result is succeeded
+  community.general.docker_container:
+    name: "lidarr"
+    image: "lscr.io/linuxserver/lidarr:{{ lidarr_version }}"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8686"]
+      start_period: 120s
+      interval: 60s
+      retries: 10
+      timeout: 60s
+    networks: 
+      - name: mediaserver-network
+        ipv4_address: 10.8.2.9
+    pull: yes
+    state: "started"
+    restart_policy: unless-stopped
+    ports: 
+      - 8686:8686
+    volumes: 
+      - "{{ docker_dir }}/lidarr:/config"
+      - ¨{{ mediaDir }}/Music:/music¨ #optional
+      - ¨{{ torrentDir }}:/downloads¨ #optional
+    env:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: "Europe/Rome"
+  tags: 
+    - lidarr
+    - all
+    

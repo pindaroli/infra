@@ -52,14 +52,10 @@
             - ms-python.python
             - GitHub.copilot
             - GitHub.copilot-chat
-
+    
     - role: chrome
       tags:
         - chrome
-
-    - role: filebot
-      tags:
-        - filebot
 
     - role: geerlingguy.security
       tags:
@@ -72,10 +68,10 @@
     - role: docker_network
       tags:
         - docker
-
-    - role: photoprism
+    
+    - role: mediaserver
       tags:
-        - docker
+        - mediaserver                  
 
 
     - role: chriswayg.msmtp-mailer
@@ -93,6 +89,10 @@
         - tailscale
     
     - role: webmin
+      tags:
+        - webmin
+
+    - role: system
       tags:
         - system
 

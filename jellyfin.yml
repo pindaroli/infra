@@ -1,0 +1,22 @@
+---
+- hosts: jellyfin.pind
+  tasks:
+    - name: Install nfs-common package
+      apt:
+        name: nfs-common
+        state: present
+      become: yes
+
+    - name: Create a directory to mount the NFS share
+      file:
+        path: /mnt/nfs-vshare
+        state: directory
+      become: yes
+
+    - name: Mount the NFS share
+      mount:
+        path: /mnt/nfs-vshare
+        src: mediaserver.pind:/oliraid/arrdata
+        fstype: nfs
+        state: mounted
+      become: yes

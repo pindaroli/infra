@@ -1,6 +1,13 @@
-- hosts: docker-server.pind
+---
+- name: Install Docker
+  hosts: docker-server.pind
+  vars:
+    pip_install_packages:
+      - name: docker
+
   roles:
+    - geerlingguy.pip
     - role: geerlingguy.docker
       docker_packages_state: present
-      tags:
-        - docker
+    - role: portainer
+...

@@ -24,11 +24,16 @@
             path: /oliraid
             valid_users: "{{samba_user_name}}"
             read_only: false
+            statut: present
           home:
             path: "/home/{{samba_user_name}}"
             valid_users: "{{samba_user_name}}"
             read_only: false
-
+          maghi:
+            path: /oliraid/maghi
+            valid_users: maghi
+            read_only: false
+           
     - role: geerlingguy.nfs
       tags:
         - NFS
@@ -62,10 +67,6 @@
         - security
 
     - role: geerlingguy.docker
-      tags:
-        - docker
-
-    - role: docker_network
       tags:
         - docker
     

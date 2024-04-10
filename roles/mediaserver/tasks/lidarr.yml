@@ -23,13 +23,12 @@
       - 8686:8686
     volumes: 
       - "{{ docker_dir }}/lidarr:/config"
-      - ¨{{ mediaDir }}/Music:/music¨ #optional
-      - ¨{{ torrentDir }}:/downloads¨ #optional
+      - "{{ mediaDir }}/Music:/music" #optional
+      - "{{ torrentDir }}:/downloads" #optional
     env:
       PUID: "1000"
       PGID: "1000"
       TZ: "Europe/Rome"
   tags: 
     - lidarr
-    - all
     

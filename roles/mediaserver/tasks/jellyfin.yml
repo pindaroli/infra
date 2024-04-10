@@ -2,12 +2,16 @@
 
 - name: Make sure the jellyfin container is created and running
   register: jellyfin_result
-  retries: 20
+  retries: 5
   until: jellyfin_result is succeeded
   community.general.docker_container:
     name: "jellyfin"
-    image: "jellyfin/jellyfin:{{ jellyfin_version }}"
-    user: 1000:1000
+    image: "lscr.io/linuxserver/jellyfin:{{ jellyfin_version }}"
+    #user: 1000:1000
+    env:
+      PUID: '1000'
+      PGID: '1000'
+      TZ: Europe/Rome
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8096"]
       start_period: 120s

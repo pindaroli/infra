@@ -1,0 +1,43 @@
+---
+- name: Make sure the traefik container is created and running
+  register: traefik_result
+  retries: 7
+  until: traefik_result is succeeded
+  community.general.docker_container:
+    name: "traefik"
+    image: "traefik:v2.11"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80"]
+      start_period: 120s
+      interval: 60s
+      retries: 5
+      timeout: 60s
+    networks: 
+      - name: mediaserver-network
+        ipv4_address: 10.8.2.13
+    pull: yes
+    state: "started"
+    restart_policy: unless-stopped
+    command:
+      - "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80"
+      - "8081:8080"
+    volumes: 
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+  tags:
+    - traefik
+    - all
+    
+- name: Open traefik port
+  ufw:
+    state: enabled
+    rule: allow
+    port: "80"
+    from_ip: "192.168.50.0/24"
+    proto: tcp
+    comment: "Allow traefik access"

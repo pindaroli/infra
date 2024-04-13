@@ -33,7 +33,7 @@
 
 - name: Make sure the photoprims container is created and running
   register: photoprims_result
-  retries: 5
+  retries: 3
   until: photoprims_result is succeeded
   community.general.docker_container:
     name: "photoprism"
@@ -85,6 +85,10 @@
       TF_CPP_MIN_LOG_LEVEL:  '0' 
       PHOTOPRISM_FFMPEG_ENCODER:  h264_qsv        
       PHOTOPRISM_INIT:  tensorflow-amd64-avx2
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.photoprism.rule:  "Host(`photoprism.mediaserver.pind`)"
+      traefik.http.routers.photoprism.entrypoints: "web"
+      #traefik.http.routers.photoprism.tls.certresolver: myresolver
   tags:
     - photoprism
-    - all

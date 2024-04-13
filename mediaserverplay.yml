@@ -72,10 +72,8 @@
     
     - role: mediaserver
       tags:
-        - mediaserver
+        - photoprism
         - jellyfin
-        - radarr
-        - lidarr
                     
 
 

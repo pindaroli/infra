@@ -12,4 +12,5 @@
 - include_tasks: radarr.yml
 - include_tasks: readarr.yml
 - include_tasks: filebot.yml
+- include_tasks: traefik.yml
 ...

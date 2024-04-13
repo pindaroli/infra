@@ -7,7 +7,6 @@
   community.general.docker_container:
     name: "jellyfin"
     image: "lscr.io/linuxserver/jellyfin:{{ jellyfin_version }}"
-    #user: 1000:1000
     env:
       PUID: '1000'
       PGID: '1000'
@@ -18,7 +17,14 @@
       interval: 60s
       retries: "10"
       timeout: 60s
-    network_mode: "host"
+    networks: 
+      - name: mediaserver-network
+        ipv4_address: 10.8.2.18
+    ports:
+      - "8096:8096"
+      - "8920:8920" #optional
+      - "7359:7359/udp" #optional
+      - "1900:1900/udp" #optional
     devices: 
       - /dev/dri/:/dev/dri/
     pull: yes
@@ -29,6 +35,19 @@
       - "{{ docker_dir }}/jellyfin/cache:/cache"
       - "{{ mediaDir }}:/media"
       - "{{ torrentDir }}:/torrents"
+  tags: 
+    - jellyfin
+    - all
+
+- name: Open jellyfin port
+  ufw:
+    state: enabled
+    rule: allow
+    port: "8096"
+    to_ip: "192.168.50.0/24"
+    from_ip: "192.168.50.0/24"
+    proto: tcp
+    comment: "Allow jellyfin access"
   tags: 
     - jellyfin
     - all

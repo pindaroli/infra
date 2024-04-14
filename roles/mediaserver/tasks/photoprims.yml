@@ -87,8 +87,9 @@
       PHOTOPRISM_INIT:  tensorflow-amd64-avx2
     labels:
       traefik.enable: "true"
-      traefik.http.routers.photoprism.rule:  "Host(`photoprism.mediaserver.pind`)"
+      traefik.http.routers.photoprism.rule:  "Path(`/foto`)"
       traefik.http.routers.photoprism.entrypoints: "web"
+      traefik.http.routers.photoprism.service: photoprism
       #traefik.http.routers.photoprism.tls.certresolver: myresolver
   tags:
     - photoprism

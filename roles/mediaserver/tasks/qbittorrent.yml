@@ -32,6 +32,12 @@
       TZ: "Europe/Rome"
       WEBUI_PORT: "8080"
       TORRENTING_PORT: "6881"
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.qbittorrent.rule:  "Path(`/qtor`)"
+      traefik.http.routers.qbittorrent.entrypoints: "web"
+      traefik.http.routers.qbittorrent.service: qbittorrent
+      traefik.http.services.qbittorrent.loadbalancer.server.port: "8080"
   tags:
     - qbittorrent
     - all

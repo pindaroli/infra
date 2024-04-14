@@ -5,7 +5,7 @@
   until: traefik_result is succeeded
   community.general.docker_container:
     name: "traefik"
-    image: "traefik:v2.11"
+    image: "traefik:latest"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:80"]
       start_period: 120s
@@ -24,6 +24,7 @@
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"
+      #- "--tracing.serviceName=traefik"
     ports:
       - "80:80"
       - "8081:8080"

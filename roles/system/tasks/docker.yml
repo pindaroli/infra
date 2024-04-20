@@ -1,0 +1,7 @@
+---
+- name: Install Docker lib
+  community.general.pipx
+      name: docker
+      install_deps: true
+      state: present
+...

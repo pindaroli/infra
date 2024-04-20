@@ -1,24 +1,78 @@
 ---
-- hosts: olilab.pind
+#
+# Tasks and roles for all hosts
 
-
+- name: Play for olilab installation
+  hosts: olilab.pind
+  become: yes
+  gather_facts: yes
+  #
   tasks:
-    - name: Install NFS client packages
-      apt:
-        name: nfs-common
-        state: present
+    - name: Raccogli i fatti
+      setup:
 
-    - name: Create a directory for the NFS share
-      file:
-        path: /mnt/backupremoto
-        state: directory
+    - name: Stampa dettagli del task
+      debug:
+        msg: "pass: {{ ansible_ssh_pass}}"
 
-    - name: Add NFS mount to /etc/fstab
-      lineinfile:
-        path: /etc/fstab
-        line: 'mediaserver.pind:/oliraid/backup/proxmox /mnt/backupremoto nfs defaults 0 0'
-        state: present
 
-    - name: Mount all filesystems mentioned in fstab
-      command: mount -a
-...
+  roles:
+    #
+    # Basics
+    #
+    - role: system
+
+    - role: joenyland.samba
+      vars:
+        samba_shares:
+          oliraid:
+            path: /backup
+            valid_users: "{{samba_user_name}}"
+            read_only: false
+            statut: present
+          home:
+            path: "/home/{{samba_user_name}}"
+            valid_users: "{{samba_user_name}}"
+            read_only: false
+
+    - role: geerlingguy.docker
+      docker_packages_state: present
+      vars:
+        docker_edition: 'ce'
+        docker_packages:
+            - "docker-{{ docker_edition }}"
+            - "docker-{{ docker_edition }}-cli"
+            - "docker-{{ docker_edition }}-rootless-extras"
+        docker_packages_state: present
+        docker_install_compose: true
+        docker_compose_version: "1.26.0"
+        docker_compose_arch: "{{ ansible_architecture }}"
+        docker_compose_path: /usr/local/bin/docker-compose
+        docker_service_manage: true
+        docker_service_state: started
+        docker_service_enabled: true
+        docker_restart_handler_state: restarted
+        docker_add_repo: true
+        docker_repo_url: https://download.docker.com/linux
+    
+    - role: portainer
+    
+
+    # - role: gantsign.visual-studio-code
+    #   become: yes
+    #   users:
+    #     - username: ¨{{ username }}"
+    #       visual_studio_code_extensions:
+    #         - redhat.ansible
+    #         - ms-azuretools.vscode-docker
+    #         - redhat.vscode-yaml
+    #         - wholroyd.jinja
+    #         - ms-python.python
+    #         - GitHub.copilot
+    #         - GitHub.copilot-chat
+    #   tags:
+    #     - vscode
+    - role: chrome
+    - role: webmin
+
+

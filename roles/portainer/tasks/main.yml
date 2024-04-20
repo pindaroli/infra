@@ -1,16 +1,16 @@
----
-- name: Pull the Portainer image
-  community.general.docker_image:
-      name: portainer/portainer-ce
-      source: pull
+- name: Deploy portainer-ce latest
+  block:
+    - name: Create new volume
+      community.docker.docker_volume:
+        name: portainer-data
 
-- name: Run Portainer container
-  community.general.docker_container:
-    name:  portainer
-    image: portainer/portainer-ce
-    state: started
-    published_ports: 9000:9000
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - "{{ docker_dir }}/portainer_data:/data"
-...
+    - name: Deploy portainer
+      community.docker.docker_container:
+        name: portainer
+        image: "docker.io/portainer/portainer-ce"
+        ports:
+          - "9443:9443"
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock
+          - portainer-data:/data
+        restart_policy: unless-stopped

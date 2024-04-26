@@ -1,7 +1,7 @@
 ---
 - hosts: olilab.pind
-
-
+  connection: local
+  become: yes
   tasks:
     - name: Install NFS client packages
       apt:
@@ -13,10 +13,21 @@
         path: /mnt/backupremoto
         state: directory
 
+    - name: Create a directory media for the NFS share
+      file:
+        path: /mnt/arrdata
+        state: directory
+
     - name: Add NFS mount to /etc/fstab
       lineinfile:
         path: /etc/fstab
-        line: 'mediaserver.pind:/oliraid/backup/proxmox /mnt/backupremoto nfs defaults 0 0'
+        line: 'mediaserver.pind:/oliraid/backup/olilab /mnt/backupremoto nfs defaults 0 0'
+        state: present
+
+    - name: Add NFS mount to /etc/fstab
+      lineinfile:
+        path: /etc/fstab
+        line: 'mediaserver.pind:/oliraid/arrdata /mnt/arrdata nfs defaults 0 0'
         state: present
 
     - name: Mount all filesystems mentioned in fstab

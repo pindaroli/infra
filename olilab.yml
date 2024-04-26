@@ -4,6 +4,7 @@
 
 - name: Play for olilab installation
   hosts: olilab.pind
+  connection: local
   become: yes
   gather_facts: yes
   #
@@ -74,5 +75,25 @@
     #     - vscode
     - role: chrome
     - role: webmin
+
+    tasks:
+    - name: Install NFS client packages
+      apt:
+        name: nfs-common
+        state: present
+
+    - name: Create a directory for the NFS share
+      file:
+        path: /mnt/backupremoto
+        state: directory
+
+    - name: Add NFS mount to /etc/fstab
+      lineinfile:
+        path: /etc/fstab
+        line: 'mediaserver.pind:/oliraid/backup/olilab /mnt/backupremoto nfs defaults 0 0'
+        state: present
+
+    - name: Mount all filesystems mentioned in fstab
+      command: mount -a
 
 

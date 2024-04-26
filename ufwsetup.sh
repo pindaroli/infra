@@ -6,3 +6,4 @@ sudo ufw allow from 192.168.50.0/24 to 192.168.50.0/24 port 111,2049,32765:32769
 sudo ufw allow from 192.168.50.0/24 to 192.168.50.0/24 port 111,2049,32765:32769 proto udp 	#NFS
 sudo ufw allow from 192.168.50.0/24 to 192.168.50.0/24 port 8096 proto tcp 	#jellyfin
 sudo ufw allow from 192.168.50.0/24 to 192.168.50.0/24 port 1990,7359 proto udp  #jellyfin discovery
+sudo ufw allow from 192.168.50.0/24 to 192.168.50.0/24 port 10000 proto tcp  #Webmin
